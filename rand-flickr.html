@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://underscorejs.org/underscore-min.js"></script>
+    <script>
+      $(function() {
+        $.getJSON("http://api.flickr.com/services/rest/?method=flickr.urls.lookupUser&api_key=aaba89b2ed1a391126c6c9cc91f6e383&url=http%3A%2F%2Fwww.flickr.com%2Fphotos%2Fjarm0%2F&format=json&nojsoncallback=1")
+        .done(fetchPhotoSets)
+
+        function fetchPhotoSets(result) {
+          $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=aaba89b2ed1a391126c6c9cc91f6e383&format=json&nojsoncallback=1&user_id=" + encodeURIComponent(result.user.id))
+          .done(fetchRandomPhotoSetInfo)
+        }
+
+        function fetchRandomPhotoSetInfo(result) {
+          var sets = result.photosets.photoset
+          var rankedSets = _(sets).reduce(function(memo, set) {
+            return memo.concat(initArray(parseInt(set.photos), set))
+          }, [])
+
+          var set = _.shuffle(rankedSets)[Math.floor(Math.random() * rankedSets.length)]
+
+          $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=aaba89b2ed1a391126c6c9cc91f6e383&format=json&nojsoncallback=1&photoset_id=" + set.id)
+          .done(fetchPhotos)
+        }
+
+        function fetchPhotos(result) {
+          var photos = result.photoset.photo
+          var photo = photos[Math.floor(Math.random() * photos.length)]
+
+          $("#container").html($("<img>").attr("src", "http://farm" + photo.farm + ".staticflickr.com/" + photo.server + "/" + photo.id + "_" + photo.secret + "_b.jpg"))
+        }
+
+        function initArray(count, value) {
+          return new Array(count + 1).join(undefined).split("").map(function() { return value })
+        }
+      })
+    </script>
+  </head>
+  <body>
+    <div id="container">
+    </div>
+  </body>
+</html>
