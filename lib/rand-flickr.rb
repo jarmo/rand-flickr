@@ -3,6 +3,10 @@ require "bundler"
 Bundler.require
 
 class RandFlickr < Sinatra::Base
+  configure do
+    set :root, File.expand_path("..", __dir__)
+  end
+
   configure :development do
     require "sinatra/reloader"
     register Sinatra::Reloader
