@@ -5,11 +5,11 @@
     <script src="http://underscorejs.org/underscore-min.js"></script>
     <script>
       $(function() {
-        $.getJSON("http://api.flickr.com/services/rest/?method=flickr.urls.lookupUser&api_key=d09acc51a5c0ca34b97ec1fe7c6f7d1e&url=http%3A%2F%2Fwww.flickr.com%2Fphotos%2Fjarm0%2F&format=json&nojsoncallback=1")
+        $.getJSON("http://api.flickr.com/services/rest/?method=flickr.urls.lookupUser&api_key=6e7b467960ad8fd6e228cba3c092f4d8&url=http%3A%2F%2Fwww.flickr.com%2Fphotos%2Fjarm0%2F&format=json&nojsoncallback=1")
         .done(fetchPhotoSets)
 
         function fetchPhotoSets(result) {
-          $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=d09acc51a5c0ca34b97ec1fe7c6f7d1e&format=json&nojsoncallback=1&user_id=" + encodeURIComponent(result.user.id))
+          $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=6e7b467960ad8fd6e228cba3c092f4d8&format=json&nojsoncallback=1&user_id=" + encodeURIComponent(result.user.id))
           .done(fetchRandomPhotoSetInfo)
         }
 
@@ -21,7 +21,7 @@
 
           var set = _.shuffle(rankedSets)[Math.floor(Math.random() * rankedSets.length)]
 
-          $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=d09acc51a5c0ca34b97ec1fe7c6f7d1e&format=json&nojsoncallback=1&photoset_id=" + set.id)
+          $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=6e7b467960ad8fd6e228cba3c092f4d8&format=json&nojsoncallback=1&photoset_id=" + set.id)
           .done(function(result) {
             fetchPhotos(set.title._content, result.photoset.photo)
           })
@@ -73,7 +73,7 @@
         position: absolute;
         color: #ccc;
         text-align: right;
-        right: 100px;
+        right: 20px;
         top: 20px;
         font-size: 18px;
         background-color: black;
