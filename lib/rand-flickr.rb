@@ -2,6 +2,8 @@
 require "bundler"
 Bundler.require
 
+require File.expand_path("flickr-api", __dir__)
+
 class RandFlickr < Sinatra::Base
   configure do
     set :root, File.expand_path("..", __dir__)
@@ -13,6 +15,7 @@ class RandFlickr < Sinatra::Base
   end
 
   get "/" do
+    @photo = FlickrApi.new(ENV["FLICKR_API_KEY"], params[:user] || "jarm0").random_photo_info
     haml :index
   end
 

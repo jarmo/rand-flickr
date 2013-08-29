@@ -5,7 +5,9 @@ gem "sinatra"
 gem "thin"
 gem "haml"
 gem "sass"
-gem "compass"
+gem "faraday"
+gem "multi_json"
+gem "oj"
 
 group :development do
   gem "sinatra-contrib"
