@@ -16,7 +16,11 @@ class RandFlickr < Sinatra::Base
   end
 
   get "/" do
-    username = params[:user] || "jarm0"
+    redirect to("/photo/jarm0")
+  end
+
+  get "/photo/:user" do
+    username = params[:user]
     photo = FlickrApi.new(ENV["FLICKR_API_KEY"], username).random_photo
     session[:photo] = photo
     redirect to("/photo/#{username}/#{photo[:photoset][:id]}/#{photo[:id]}")
