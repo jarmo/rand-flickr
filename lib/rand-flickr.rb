@@ -27,7 +27,8 @@ class RandFlickr < Sinatra::Base
   end
 
   get "/photo/:user/:photoset_id/:photo_id" do
-    @photo = session.delete(:photo) || FlickrApi.new(ENV["FLICKR_API_KEY"], params[:user]).photo(params[:photoset_id], params[:photo_id])
+    @username = params[:user]
+    @photo = session.delete(:photo) || FlickrApi.new(ENV["FLICKR_API_KEY"], @username).photo(params[:photoset_id], params[:photo_id])
     haml :index
   end
 
