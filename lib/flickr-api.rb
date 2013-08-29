@@ -11,7 +11,6 @@ class FlickrApi
 
   def random_photo_info
     photo = random_photo
-    p photo
     photo.merge(
       url: "http://farm#{photo[:farm]}.staticflickr.com/#{photo[:server]}/#{photo[:id]}_#{photo[:secret]}_b.jpg"
     )
@@ -40,7 +39,6 @@ class FlickrApi
 
   def request(params={})
     conn = Faraday.new(:url => "#{API_ENDPOINT_URL.scheme}://#{API_ENDPOINT_URL.host}") do |c|
-      c.response :logger                  # log requests to STDOUT
       c.adapter Faraday.default_adapter
     end
 
