@@ -33,7 +33,7 @@ class FlickrApi
 
   def random_photo
     photoset = random_photoset
-    photos = response request(method: "flickr.photosets.getPhotos", photoset_id: random_photoset[:id]), [], :photoset, :photo
+    photos = response request(method: "flickr.photosets.getPhotos", photoset_id: photoset[:id]), [], :photoset, :photo
     (photos.sample || {}).merge(photoset_title: photoset[:title][:_content])
   end
 
