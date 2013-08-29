@@ -7,6 +7,7 @@ require File.expand_path("flickr-api", __dir__)
 class RandFlickr < Sinatra::Base
   configure do
     set :root, File.expand_path("..", __dir__)
+    enable :sessions
   end
 
   configure :development do
@@ -15,7 +16,14 @@ class RandFlickr < Sinatra::Base
   end
 
   get "/" do
-    @photo = FlickrApi.new(ENV["FLICKR_API_KEY"], params[:user] || "jarm0").random_photo_info
+    username = params[:user] || "jarm0"
+    photo = FlickrApi.new(ENV["FLICKR_API_KEY"], username).random_photo
+    session[:photo] = photo
+    redirect to("/photo/#{username}/#{photo[:photoset][:id]}/#{photo[:id]}")
+  end
+
+  get "/photo/:user/:photoset_id/:photo_id" do
+    @photo = session.delete(:photo) || FlickrApi.new(ENV["FLICKR_API_KEY"], params[:user]).photo(params[:photoset_id], params[:photo_id])
     haml :index
   end
 

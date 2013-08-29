@@ -2,7 +2,14 @@ GEM
   remote: https://rubygems.org/
   specs:
     backports (3.3.3)
+    columnize (0.3.6)
     daemons (1.1.9)
+    debugger (1.6.0)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.2.1)
+    debugger-linecache (1.2.0)
+    debugger-ruby_core_source (1.2.2)
     eventmachine (1.0.3)
     eventmachine (1.0.3-x86-mingw32)
     faraday (0.8.8)
@@ -40,6 +47,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  debugger
   faraday
   haml
   multi_json

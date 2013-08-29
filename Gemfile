@@ -11,4 +11,5 @@ gem "oj"
 
 group :development do
   gem "sinatra-contrib"
+  gem "debugger"
 end

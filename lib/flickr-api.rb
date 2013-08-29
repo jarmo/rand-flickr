@@ -9,11 +9,17 @@ class FlickrApi
     @username = username
   end
 
-  def random_photo_info
-    photo = random_photo
-    photo.merge(
-      url: "http://farm#{photo[:farm]}.staticflickr.com/#{photo[:server]}/#{photo[:id]}_#{photo[:secret]}_b.jpg"
-    )
+  def random_photo
+    photoset = random_photoset
+    photos = response photoset_info(photoset[:id]), [], :photoset, :photo
+    photo_with_info photoset, photos.sample
+  end
+
+  def photo(photoset_id, photo_id)
+    photoset = photosets.find { |set| set[:id] == photoset_id }
+    photos = response photoset_info(photoset[:id]), [], :photoset, :photo
+    photo = photos.find { |photo| photo[:id] == photo_id }
+    photo_with_info photoset, photo
   end
 
   private
@@ -26,15 +32,20 @@ class FlickrApi
     response request(method: "flickr.photosets.getList", user_id: user_id), [], :photosets, :photoset
   end
 
+  def photoset_info(photoset_id)
+    request method: "flickr.photosets.getPhotos", photoset_id: photoset_id
+  end
+
   def random_photoset
     ranked_sets = photosets.reduce([]) { |memo, set| memo += Array.new(set[:photos].to_i, set) }
     ranked_sets.shuffle.sample
   end
 
-  def random_photo
-    photoset = random_photoset
-    photos = response request(method: "flickr.photosets.getPhotos", photoset_id: photoset[:id]), [], :photoset, :photo
-    (photos.sample || {}).merge(photoset_title: photoset[:title][:_content])
+  def photo_with_info(photoset={}, photo={})
+    photo.merge(
+      photoset: photoset,
+      url: "http://farm#{photo[:farm]}.staticflickr.com/#{photo[:server]}/#{photo[:id]}_#{photo[:secret]}_b.jpg"
+    )
   end
 
   def request(params={})
