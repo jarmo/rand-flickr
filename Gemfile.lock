@@ -19,6 +19,8 @@ GEM
     multi_json (1.7.9)
     multipart-post (1.2.0)
     oj (2.0.14)
+    puma (2.5.1)
+      rack (>= 1.1, < 2.0)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -52,6 +54,7 @@ DEPENDENCIES
   haml
   multi_json
   oj
+  puma
   sass
   sinatra
   sinatra-contrib
