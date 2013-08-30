@@ -10,6 +10,7 @@ gem "oj"
 
 group :production do
   gem "puma"
+  gem "foremanˇ"
 end
 
 group :development do
