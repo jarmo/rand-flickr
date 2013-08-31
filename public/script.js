@@ -1,12 +1,14 @@
 var PhotoRenderer = function(container, photo) {
   this.render = function() {
+    NProgress.configure({minimum: 0.3}).start();
+
     $("<img>").load(function() {
       $(this).remove()
       container
         .css("background-image", "url(" + photo.url + ")")
         .find(".caption").html(photo.photoset.title._content + "<br>" + photo.title).end()
         .fadeIn()
-      $("#loader").remove()
+      NProgress.done();
     }).attr("src", photo.url)
 
     return this
