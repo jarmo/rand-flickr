@@ -1,12 +1,11 @@
-# encoding: UTF-8
 require "uri"
 
 class FlickrApi
   API_ENDPOINT_URL = URI.parse("http://api.flickr.com/services/rest/")
 
   def initialize(api_key, username)
-    @api_key = api_key
-    @username = username
+    @api_key = api_key or raise "Flickr API key is not provided!"
+    @username = username or raise "Flickr username is not provided!"
   end
 
   def random_photo

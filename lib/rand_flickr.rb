@@ -1,8 +1,7 @@
-# encoding: UTF-8
 require "bundler"
 Bundler.require
 
-require File.expand_path("flickr-api", __dir__)
+require File.expand_path("flickr_api", __dir__)
 
 class RandFlickr < Sinatra::Base
   configure do
