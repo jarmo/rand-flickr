@@ -1,6 +1,6 @@
-require "bundler"
-Bundler.require
-
+require "sinatra"
+require "haml"
+require "sass"
 require File.expand_path("flickr_api", __dir__)
 
 class RandFlickr < Sinatra::Base

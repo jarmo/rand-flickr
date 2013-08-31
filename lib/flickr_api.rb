@@ -1,4 +1,7 @@
 require "uri"
+require "faraday"
+require "multi_json"
+require "oj"
 
 class FlickrApi
   API_ENDPOINT_URL = URI.parse("http://api.flickr.com/services/rest/")
@@ -10,13 +13,13 @@ class FlickrApi
 
   def random_photo
     photoset = random_photoset
-    photos = response photoset_info(photoset[:id]), [], :photoset, :photo
+    photos = response photoset_info(photoset[:id]), :photoset, :photo
     photo_with_info photoset, photos.sample
   end
 
   def photo(photoset_id, photo_id)
     photoset = photosets.find { |set| set[:id] == photoset_id }
-    photos = response photoset_info(photoset[:id]), [], :photoset, :photo
+    photos = response photoset_info(photoset[:id]), :photoset, :photo
     photo = photos.find { |photo| photo[:id] == photo_id }
     photo_with_info photoset, photo
   end
@@ -24,11 +27,11 @@ class FlickrApi
   private
 
   def user_id
-    response request(method: "flickr.urls.lookupUser", url: "http://www.flickr.com/photos/#{@username}"), nil, :user, :id
+    response request(method: "flickr.urls.lookupUser", url: "http://www.flickr.com/photos/#{@username}"), :user, :id
   end
 
   def photosets
-    response request(method: "flickr.photosets.getList", user_id: user_id), [], :photosets, :photoset
+    response request(method: "flickr.photosets.getList", user_id: user_id), :photosets, :photoset
   end
 
   def photoset_info(photoset_id)
@@ -64,7 +67,14 @@ class FlickrApi
     json = MultiJson.load response, symbolize_keys: true
   end
 
-  def response(json, default_value, *keys)
-    json[:stat] != "ok" ? default_value : keys.reduce(json) { |memo, key| memo[key] }
+  def response(json, *keys)
+    json[:stat] == "fail" ? raise_error(json[:message]) : keys.reduce(json) { |memo, key| memo[key] }
   end
+
+  def raise_error(error_message)
+    raise Error, error_message
+  end
+
+  Error = Class.new(RuntimeError)
+
 end
