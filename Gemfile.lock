@@ -119,6 +119,7 @@ DEPENDENCIES
   multi_json
   oj
   puma
+  rack-test
   rspec
   ruby_gntp
   sass
