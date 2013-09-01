@@ -20,16 +20,7 @@ describe FlickrApi do
     let(:api) { FlickrApi.new "key", "user" }
 
     it "raises an error if user_id is not found" do
-      api_request(
-        {
-          method: "flickr.urls.lookupUser",
-          url: "http://www.flickr.com/photos/user"
-        },
-        {
-          message: "User not found",
-          stat: "fail"
-        }
-      )
+      stub_user_request(message: "User not found", stat: "fail")
 
       expect {
         api.random_photo
@@ -37,27 +28,8 @@ describe FlickrApi do
     end
 
     it "raises an error if user does not have any photosets" do
-      api_request(
-        {
-          method: "flickr.urls.lookupUser",
-          url: "http://www.flickr.com/photos/user"
-        },
-        {
-          user: {id: "valid-user-id"},
-          stat: "ok"
-        }
-      )
-
-      api_request(
-        {
-          method: "flickr.photosets.getList",
-          user_id: "valid-user-id"
-        },
-        {
-          photosets: {photoset: []},
-          stat: "ok"
-        }
-      )
+      stub_user_request(user: {id: "valid-user-id"}, stat: "ok")
+      stub_photosets_request(photosets: {photoset: []}, stat: "ok")
 
       expect {
         api.random_photo
@@ -65,27 +37,8 @@ describe FlickrApi do
     end
 
     it "ignores empty photosets" do
-      api_request(
-        {
-          method: "flickr.urls.lookupUser",
-          url: "http://www.flickr.com/photos/user"
-        },
-        {
-          user: {id: "valid-user-id"},
-          stat: "ok"
-        }
-      )
-
-      api_request(
-        {
-          method: "flickr.photosets.getList",
-          user_id: "valid-user-id"
-        },
-        {
-          photosets: {photoset: [{photos: 0}]},
-          stat: "ok"
-        }
-      )
+      stub_user_request(user: {id: "valid-user-id"}, stat: "ok")
+      stub_photosets_request(photosets: {photoset: [{photos: 0}], stat: "ok"})
 
       expect {
         api.random_photo
@@ -93,16 +46,7 @@ describe FlickrApi do
     end
 
     it "returns random photo from sets" do
-      api_request(
-        {
-          method: "flickr.urls.lookupUser",
-          url: "http://www.flickr.com/photos/user"
-        },
-        {
-          user: {id: "valid-user-id"},
-          stat: "ok"
-        }
-      )
+      stub_user_request(user: {id: "valid-user-id"}, stat: "ok")
 
       random_photoset = {photos: 2, id: "set-id3"}
       photosets = [
@@ -110,19 +54,7 @@ describe FlickrApi do
         {photos: 1, id: "set-id2"},
         random_photoset 
       ]
-
-      api_request(
-        {
-          method: "flickr.photosets.getList",
-          user_id: "valid-user-id"
-        },
-        {
-          photosets: {
-            photoset: photosets 
-          },
-          stat: "ok"
-        }
-      )
+      stub_photosets_request(photosets: {photoset: photosets}, stat: "ok")
 
       random_photo = {id: "photo-id1", secret: "photo-secret", server: "photo-server", farm: 1337, title: "photo-title"}
       photos = [
@@ -160,5 +92,25 @@ describe FlickrApi do
     stub_request(:get, FlickrApi::API_ENDPOINT_URL.to_s)
       .with(query: hash_including(params))
       .to_return(:status => 200, :body => MultiJson.dump(response_body))      
+  end
+
+  def stub_user_request(response)
+    api_request(
+      {
+        method: "flickr.urls.lookupUser",
+        url: "http://www.flickr.com/photos/user"
+      },
+      response
+    )    
+  end
+
+  def stub_photosets_request(response)
+    api_request(
+      {
+        method: "flickr.photosets.getList",
+        user_id: "valid-user-id"
+      },
+      response
+    )
   end
 end
