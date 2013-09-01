@@ -20,7 +20,7 @@ class FlickrApi
   def photo(photoset_id, photo_id)
     photoset = photosets.find { |set| set[:id] == photoset_id }
     photos = response photoset_info(photoset[:id]), :photoset, :photo
-    photo = photos.find { |photo| photo[:id] == photo_id }
+    photo = photos.find { |photo| photo[:id] == photo_id } or raise_error("Photo not found")
     photo_with_info photoset, photo
   end
 

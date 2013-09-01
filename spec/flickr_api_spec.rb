@@ -61,20 +61,7 @@ describe FlickrApi do
         random_photo,
         {id: "photo-id2", secret: "photo-secret2", server: "photo-server2", farm: 42, title: "photo-title2"}
       ]
-
-      api_request(
-        {
-          method: "flickr.photosets.getPhotos",
-          media: "photos",
-          photoset_id: "set-id3"
-        },
-        {
-          photoset: {
-            photo: photos
-          },
-          stat: "ok"
-        }        
-      )
+      stub_photos_request(photoset: {photo: photos}, stat: "ok")
 
       really_random_elements = [random_photoset, random_photo]
       Array.any_instance.stub(:sample) { really_random_elements.shift }
@@ -85,6 +72,42 @@ describe FlickrApi do
       )
 
       api.random_photo.should == expected_photo_with_url
+    end
+  end
+
+  context "#photo" do
+    it "raises an error if photoset with the provided id is not found" do
+      stub_user_request(user: {id: "valid-user-id"}, stat: "ok")
+      stub_photosets_request(message: "Photoset not found", stat: "fail")
+
+      expect {
+        FlickrApi.new("key", "user").photo("invalid-set-id", "photo-id")
+      }.to raise_error(FlickrApi::Error, "Photoset not found")
+    end
+
+    it "raises an error if photo with the provided id is not found" do
+      stub_user_request(user: {id: "valid-user-id"}, stat: "ok")
+      stub_photosets_request(photosets: {photoset: [{photos: 1, id: "set-id3"}]}, stat: "ok")
+      stub_photos_request(photoset: {photo: [{id: "photo-id"}]}, stat: "ok")
+
+      expect {
+        FlickrApi.new("key", "user").photo("set-id3", "invalid-photo-id")
+      }.to raise_error(FlickrApi::Error, "Photo not found")
+    end
+
+    it "returns specified photo" do
+      stub_user_request(user: {id: "valid-user-id"}, stat: "ok")
+      photoset = {photos: 1, id: "set-id3"}
+      stub_photosets_request(photosets: {photoset: [photoset]}, stat: "ok")
+      photo = {id: "photo-id", secret: "photo-secret2", server: "photo-server2", farm: 42, title: "photo-title2"}
+      stub_photos_request(photoset: {photo: [photo]}, stat: "ok")
+
+      expected_photo = photo.merge(
+        photoset: photoset,
+        url: "http://farm42.staticflickr.com/photo-server2/photo-id_photo-secret2_b.jpg"
+      )
+
+      FlickrApi.new("key", "user").photo("set-id3", "photo-id").should == expected_photo
     end
   end
 
@@ -109,6 +132,17 @@ describe FlickrApi do
       {
         method: "flickr.photosets.getList",
         user_id: "valid-user-id"
+      },
+      response
+    )
+  end
+
+  def stub_photos_request(response)
+    api_request(
+      {
+        method: "flickr.photosets.getPhotos",
+        media: "photos",
+        photoset_id: "set-id3"
       },
       response
     )
