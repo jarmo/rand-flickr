@@ -14,6 +14,15 @@ class RandFlickr < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  configure :production do
+    require "raven"
+    use Raven::Rack
+    
+    Raven.configure do |config|
+      config.dsn = ENV["SENTRY_DSN"]
+    end
+  end
+
   get "/" do
     call env.merge("PATH_INFO" => "/photo/jarm0")
   end
