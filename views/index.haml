@@ -1,32 +1,3 @@
-!!! 5
-%html
-  %head
-    %title
-      rand(flickr)
-    %link(rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto")
-    %link(rel="stylesheet" type="text/css" href="/nprogress.css")
-    %link(rel="stylesheet" type="text/css" href="/style.css")
-    
-    %script(type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js")
-    %script(type="text/javascript" src="http://underscorejs.org/underscore-min.js")
-    %script(type="text/javascript" src="/nprogress.js")
-    %script(type="text/javascript" src="/script.js")
-
-    :javascript
-      $(function() {
-        new PhotoRenderer($("#container"), #{MultiJson.dump @photo}).render()
-      })
-
-    :javascript
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-12994604-5', 'rand-flickr.herokuapp.com');
-      ga('send', 'pageview');
-    
-  %body
-    %a(href="/photo/#{@username}")
-      #container
-        .caption
+%a(href="/photo/#{@username}")
+  #container
+    .caption
