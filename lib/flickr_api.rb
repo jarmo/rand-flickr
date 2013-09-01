@@ -31,16 +31,17 @@ class FlickrApi
   end
 
   def photosets
-    response request(method: "flickr.photosets.getList", user_id: user_id), :photosets, :photoset
+    all_photosets = response request(method: "flickr.photosets.getList", user_id: user_id), :photosets, :photoset
+    all_photosets.delete_if { |set| set[:photos].to_i == 0 }
   end
 
   def photoset_info(photoset_id)
-    request method: "flickr.photosets.getPhotos", photoset_id: photoset_id
+    request method: "flickr.photosets.getPhotos", media: "photos", photoset_id: photoset_id
   end
 
   def random_photoset
     ranked_sets = photosets.reduce([]) { |memo, set| memo += Array.new(set[:photos].to_i, set) }
-    ranked_sets.shuffle.sample
+    ranked_sets.shuffle.sample || raise_error("User does not have any photosets")
   end
 
   def photo_with_info(photoset={}, photo={})
