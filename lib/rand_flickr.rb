@@ -15,7 +15,7 @@ class RandFlickr < Sinatra::Base
   end
 
   get "/" do
-    redirect to("/photo/jarm0")
+    call env.merge("PATH_INFO" => "/photo/jarm0")
   end
 
   get "/photo/:user" do
