@@ -12,6 +12,9 @@ class RandFlickr < Sinatra::Base
   configure :development do
     require "sinatra/reloader"
     register Sinatra::Reloader
+
+    require "rack-livereload"
+    use Rack::LiveReload
   end
 
   configure :production do

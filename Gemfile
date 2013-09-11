@@ -19,10 +19,12 @@ group :development do
   gem "guard"
   gem "guard-rspec"
   gem "guard-bundler"
+  gem "guard-livereload"
   gem "wdm", platform: :mingw
   gem "win32console", platform: :mingw
   gem "ruby_gntp"
   gem "sinatra-contrib"
+  gem "rack-livereload"
   gem "debugger"
 end
 
