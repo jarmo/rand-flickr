@@ -40,7 +40,7 @@ class RandFlickr < Sinatra::Base
   get "/photo/:user/:photoset_id/:photo_id" do
     @username = params[:user]
     @photo = session.delete(:photo) || FlickrApi.new(ENV["FLICKR_API_KEY"], @username).photo(params[:photoset_id], params[:photo_id])
-    haml :index
+    haml :photo
   end
 
   get "/style.css" do
