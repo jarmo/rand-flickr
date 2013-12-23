@@ -13,15 +13,19 @@ class FlickrApi
 
   def random_photo
     photoset = random_photoset
-    photos = response photoset_info(photoset[:id]), :photoset, :photo
-    photo_with_info photoset, photos.sample
+    photoset_with_info = photoset_info(photoset[:id])
+    ownername = response photoset_with_info, :photoset, :ownername
+    photos = response photoset_with_info, :photoset, :photo
+    photo_with_info ownername, photoset, photos.sample
   end
 
   def photo(photoset_id, photo_id)
     photoset = photosets.find { |set| set[:id] == photoset_id }
-    photos = response photoset_info(photoset[:id]), :photoset, :photo
+    photoset_with_info = photoset_info(photoset[:id])
+    ownername = response photoset_with_info, :photoset, :ownername
+    photos = response photoset_with_info, :photoset, :photo
     photo = photos.find { |photo| photo[:id] == photo_id } or raise_error("Photo not found")
-    photo_with_info photoset, photo
+    photo_with_info ownername, photoset, photo
   end
 
   private
@@ -44,8 +48,9 @@ class FlickrApi
     ranked_sets.shuffle.sample || raise_error("User does not have any photosets")
   end
 
-  def photo_with_info(photoset={}, photo={})
+  def photo_with_info(ownername, photoset={}, photo={})
     photo.merge(
+      ownername: ownername,
       photoset: photoset,
       url: "http://farm#{photo[:farm]}.staticflickr.com/#{photo[:server]}/#{photo[:id]}_#{photo[:secret]}_b.jpg"
     )

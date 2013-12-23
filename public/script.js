@@ -6,7 +6,7 @@ var PhotoRenderer = function(container, photo) {
       $(this).remove()
       container
         .css("background-image", "url(" + photo.url + ")")
-        .find(".caption").html(photo.photoset.title._content + "<br>" + photo.title).end()
+        .find(".caption").html(photo.photoset.title._content + "<br>" + photo.title + "<br>" + photo.ownername).end()
         .fadeIn()
       NProgress.done();
     }).attr("src", photo.url)

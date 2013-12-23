@@ -25,7 +25,7 @@ group :development do
   gem "ruby_gntp"
   gem "sinatra-contrib"
   gem "rack-livereload"
-  gem "debugger"
+  gem "byebug"
 end
 
 group :test do

@@ -1,6 +1,6 @@
 $: << File.expand_path("vendor/http_parser.rb-20", __dir__)
 notification :ruby_gntp
-interactor :off
+#interactor :off
 
 guard 'rspec', version: 2 do
   watch(%r{^spec/.+_spec\.rb$})

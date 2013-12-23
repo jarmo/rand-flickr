@@ -61,12 +61,13 @@ describe FlickrApi do
         random_photo,
         {id: "photo-id2", secret: "photo-secret2", server: "photo-server2", farm: 42, title: "photo-title2"}
       ]
-      stub_photos_request(photoset: {photo: photos}, stat: "ok")
+      stub_photos_request(photoset: {ownername: "foooo baaar", photo: photos}, stat: "ok")
 
       really_random_elements = [random_photoset, random_photo]
       Array.any_instance.stub(:sample) { really_random_elements.shift }
 
       expected_photo_with_url = random_photo.merge(
+        ownername: "foooo baaar",
         photoset: random_photoset,
         :url=>"http://farm1337.staticflickr.com/photo-server/photo-id1_photo-secret_b.jpg"
       )
@@ -100,9 +101,10 @@ describe FlickrApi do
       photoset = {photos: 1, id: "set-id3"}
       stub_photosets_request(photosets: {photoset: [photoset]}, stat: "ok")
       photo = {id: "photo-id", secret: "photo-secret2", server: "photo-server2", farm: 42, title: "photo-title2"}
-      stub_photos_request(photoset: {photo: [photo]}, stat: "ok")
+      stub_photos_request(photoset: {ownername: "foooo baaar", photo: [photo]}, stat: "ok")
 
       expected_photo = photo.merge(
+        ownername: "foooo baaar",
         photoset: photoset,
         url: "http://farm42.staticflickr.com/photo-server2/photo-id_photo-secret2_b.jpg"
       )
