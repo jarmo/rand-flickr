@@ -20,10 +20,12 @@ var PhotoRenderer = function(container, photo) {
     $("<img>").load(function() {
       $(this).remove()
 
-      container
-        .css("background-image", "url(" + photo.url + ")")
-        .find(".caption").html(photo.photoset.title._content + "<br>" + photo.title + "<br>" + photo.ownername).end()
-        .fadeIn()
+      container.fadeOut(function() {
+        $(this)
+          .css("background-image", "url(" + photo.url + ")")
+          .find(".caption").html(photo.photoset.title._content + "<br>" + photo.title + "<br>" + photo.ownername).end()
+          .fadeIn()
+      })
 
       NProgress.done()
       dfd.resolve()
