@@ -27,7 +27,11 @@ class RandFlickr < Sinatra::Base
   end
 
   get "/" do
-    call env.merge("PATH_INFO" => "/photo/jarm0")
+    haml :index
+  end
+
+  get "/view" do
+    call env.merge("PATH_INFO" => "/photo/#{params[:user]}")
   end
 
   get "/photo/:user" do
