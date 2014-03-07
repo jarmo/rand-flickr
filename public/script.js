@@ -9,15 +9,15 @@ var PhotoRenderer = function(container, photo) {
   }
 
   function bindEvents() {
-    $("a").click(renderNewImage)
+    $("a").click($.proxy(renderNewImage, this))
 
-    $(window).on("popstate", renderImageFromHistory)
+    $(window).on("popstate", $.proxy(renderImageFromHistory, this))
   }
 
   function renderImage(photo) {
     var dfd = $.Deferred()
 
-    $("<img>").load(function() {
+    loadPhoto(photo).done(function() {
       $(this).remove()
 
       container.fadeOut(function() {
@@ -29,7 +29,9 @@ var PhotoRenderer = function(container, photo) {
 
       NProgress.done()
       dfd.resolve()
-    }).attr("src", photo.url)
+    })
+
+    this.nextRandomImage = getRandomImageJSON()
 
     return dfd
   }
@@ -39,8 +41,20 @@ var PhotoRenderer = function(container, photo) {
 
     startProgress()
 
-    var photoJsonUrl = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + $("a").attr("href") + ".json"
-    $.getJSON(photoJsonUrl).done(replaceCurrentImage)
+    var photoRequest = this.nextRandomImage || getRandomImageJSON()
+    photoRequest.done(replaceCurrentImage)
+  }
+
+  function getRandomImageJSON() {
+    var photoJSONUrl = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + $("a").attr("href") + ".json"
+    return $.getJSON(photoJSONUrl).done(loadPhoto)
+  }
+
+  function loadPhoto(photo) {
+    var dfd = $.Deferred()
+    $("<img>").load(function() { $(this).remove(); dfd.resolve() }).attr("src", photo.url)    
+
+    return dfd
   }
 
   function renderImageFromHistory() {
