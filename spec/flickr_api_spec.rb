@@ -20,11 +20,11 @@ describe FlickrApi do
     let(:api) { FlickrApi.new "key", "user" }
 
     it "raises an error if user_id is not found" do
-      stub_user_request(message: "User not found", stat: "fail")
+      stub_user_request(message: "User not found", code: 1, stat: "fail")
 
       expect {
         api.random_photo
-      }.to raise_error(FlickrApi::Error, "User not found")
+      }.to raise_error(FlickrApi::Error::UserNotFoundError, "User not found")
     end
 
     it "raises an error if user does not have any photosets" do

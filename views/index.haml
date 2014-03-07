@@ -1,6 +1,9 @@
 #container
   .pure-g.main
     .pure-u-1-1
+      - if @error
+        %p.error.pure-u-2-5
+          = @error      
       %h1
         %form.pure-form(action="/photo" method="GET")
           rand(

@@ -70,7 +70,7 @@ html, button, input, select, textarea,
   background: rgb(28, 184, 65); /* this is a green */
 }
 
-.button-error {
+.button-error, .error {
   background: rgb(202, 60, 60); /* this is a maroon */
 }
 
@@ -80,4 +80,9 @@ html, button, input, select, textarea,
 
 .button-secondary {
   background: rgb(66, 184, 221); /* this is a light blue */
+}
+
+.error {
+  padding: 5px;
+  text-align: center;
 }

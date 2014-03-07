@@ -31,7 +31,9 @@ class FlickrApi
   private
 
   def user_id
-    response request(method: "flickr.urls.lookupUser", url: "http://www.flickr.com/photos/#{@username}"), :user, :id
+    json_response = request(method: "flickr.urls.lookupUser", url: "http://www.flickr.com/photos/#{@username}")
+    raise Error::UserNotFoundError, json_response[:message] if json_response[:stat] == "fail" && json_response[:code] == 1
+    response json_response, :user, :id
   end
 
   def photosets
@@ -82,5 +84,6 @@ class FlickrApi
   end
 
   Error = Class.new(RuntimeError)
+  Error::UserNotFoundError = Class.new(Error)
 
 end
