@@ -5,14 +5,6 @@ require "spec_helper"
 describe RandFlickr do
   include Rack::Test::Methods
 
-  it "/ redirects to the default user photo url" do
-    FlickrApi.any_instance.stub(random_photo: {photoset: {id: "set-id"}, id: "photo-id"})
-    get "/"
-   
-    last_response.should be_redirection
-    last_response.location.should == "http://example.org/photo/jarm0/set-id/photo-id"
-  end
-
   it "/photo/:user redirects to the photo url" do
     FlickrApi.any_instance.stub(random_photo: {photoset: {id: "set-id"}, id: "photo-id"})
     get "/photo/user"
