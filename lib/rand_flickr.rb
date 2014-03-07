@@ -47,10 +47,11 @@ class RandFlickr < Sinatra::Base
     username = params[:user]
     begin
       session[:photo] = photo = random_photo username
-    rescue FlickrApi::Error::UserNotFoundError => e
-      @error = "Flickr user #{username} not found!"
+    rescue FlickrApi::Error::UserNotFoundError, FlickrApi::Error::NoPhotosetsError => e
+      @error = e.message
       return haml :index
     end
+
     redirect to(browser_url(username, photo))
   end
 

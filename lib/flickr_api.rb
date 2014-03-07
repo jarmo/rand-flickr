@@ -32,7 +32,7 @@ class FlickrApi
 
   def user_id
     json_response = request(method: "flickr.urls.lookupUser", url: "http://www.flickr.com/photos/#{@username}")
-    raise Error::UserNotFoundError, json_response[:message] if json_response[:stat] == "fail" && json_response[:code] == 1
+    raise Error::UserNotFoundError, "Flickr user #{@username} not found!" if json_response[:stat] == "fail" && json_response[:code] == 1
     response json_response, :user, :id
   end
 
@@ -47,7 +47,7 @@ class FlickrApi
 
   def random_photoset
     ranked_sets = photosets.reduce([]) { |memo, set| memo += Array.new(set[:photos].to_i, set) }
-    ranked_sets.shuffle.sample || raise_error("User does not have any photosets")
+    ranked_sets.shuffle.sample || (raise Error::NoPhotosetsError, "Flickr user #{@username} does not have any photosets!")
   end
 
   def photo_with_info(ownername, photoset={}, photo={})
@@ -85,5 +85,6 @@ class FlickrApi
 
   Error = Class.new(RuntimeError)
   Error::UserNotFoundError = Class.new(Error)
+  Error::NoPhotosetsError = Class.new(Error)
 
 end

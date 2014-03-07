@@ -24,7 +24,7 @@ describe FlickrApi do
 
       expect {
         api.random_photo
-      }.to raise_error(FlickrApi::Error::UserNotFoundError, "User not found")
+      }.to raise_error(FlickrApi::Error::UserNotFoundError)
     end
 
     it "raises an error if user does not have any photosets" do
@@ -33,7 +33,7 @@ describe FlickrApi do
 
       expect {
         api.random_photo
-      }.to raise_error(FlickrApi::Error, "User does not have any photosets")
+      }.to raise_error(FlickrApi::Error::NoPhotosetsError)
     end
 
     it "ignores empty photosets" do
@@ -42,7 +42,7 @@ describe FlickrApi do
 
       expect {
         api.random_photo
-      }.to raise_error(FlickrApi::Error, "User does not have any photosets")
+      }.to raise_error(FlickrApi::Error)
     end
 
     it "returns random photo from sets" do
