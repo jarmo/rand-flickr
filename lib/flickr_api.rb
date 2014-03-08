@@ -4,7 +4,7 @@ require "multi_json"
 require "oj"
 
 class FlickrApi
-  API_ENDPOINT_URL = URI.parse("http://api.flickr.com/services/rest/")
+  API_ENDPOINT_URL = URI.parse("https://api.flickr.com/services/rest/")
 
   def initialize(api_key, username)
     @api_key = api_key or raise "Flickr API key is not provided!"
