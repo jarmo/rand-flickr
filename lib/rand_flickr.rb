@@ -31,7 +31,13 @@ class RandFlickr < Sinatra::Base
   end
 
   get "/photo" do
-    call env.merge("PATH_INFO" => "/photo/#{params[:user]}")
+    user = params[:user]
+    if user.empty?
+      @error = "User not specified"
+      return haml :index
+    end
+
+    call env.merge("PATH_INFO" => "/photo/#{user}")
   end
 
   get "/photo/:user.json" do
