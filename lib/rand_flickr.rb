@@ -26,6 +26,12 @@ class RandFlickr < Sinatra::Base
     end
   end
 
+  helpers do
+    def random_background_image
+      "images/#{File.basename(Dir.glob(File.join(settings.public_folder, "images", "*.jpg")).sample)}"
+    end
+  end
+
   get "/" do
     haml :index
   end
