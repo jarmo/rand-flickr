@@ -46,7 +46,7 @@ var PhotoRenderer = function(container, photo) {
   }
 
   function getRandomImageJSON() {
-    var photoJSONUrl = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + $("a").attr("href") + ".json"
+    var photoJSONUrl = $("a").attr("href") + ".json"
     return $.getJSON(photoJSONUrl).done(loadPhoto)
   }
 
