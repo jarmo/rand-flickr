@@ -9,7 +9,7 @@ var PhotoRenderer = function(container, photo) {
   }
 
   function bindEvents() {
-    $("a").click($.proxy(renderNewImage, this))
+    $("a.next-photo").click($.proxy(renderNewImage, this))
 
     $(window).on("popstate", $.proxy(renderImageFromHistory, this))
   }
