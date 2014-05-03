@@ -1,3 +1,8 @@
+:javascript
+  $(function() {
+    new Index().render()
+  });
+
 #container
   .bg(style="background-image: url(#{random_background_image})")
   .pure-g.main
@@ -9,9 +14,14 @@
           rand(
           %input.pure-input-1-5(name="user" type="text" placeholder="flickr user")
           )
-          %button.pure-button(type="submit")
-            %i.fa.fa-flickr
-            %span go
+          %button.pure-button.submit(type="submit")
+            .content
+              %i.fa.fa-flickr
+              %span go
+            .spinner.hidden
+              .bounce1
+              .bounce2
+              .bounce3
       .pure-u-2-5.predefined
         %a(href="/photo/jarm0") or just view my random images
 

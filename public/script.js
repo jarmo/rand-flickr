@@ -1,3 +1,17 @@
+var Index = function() {
+  this.render = function() {
+    bindEvents()
+  }
+
+  function bindEvents() {
+    $("form").submit(function(ev) {
+      $(this).find("button")
+             .find(".content").addClass("hidden").end()
+             .find(".spinner").removeClass("hidden")
+    })
+  }
+};
+
 var PhotoRenderer = function(container, photo) {
   bindEvents();
 
