@@ -1,6 +1,6 @@
+require "spec_helper"
 require "rand_flickr"
 require "rack/test"
-require "spec_helper"
 
 describe RandFlickr do
   include Rack::Test::Methods

@@ -1,5 +1,5 @@
-require "flickr_api"
 require "spec_helper"
+require "flickr_api"
 
 describe FlickrApi do
   context "#initialize" do
