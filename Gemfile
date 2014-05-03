@@ -33,4 +33,6 @@ group :test do
   gem "rspec"
   gem "webmock"
   gem "rack-test"
+  gem "coveralls", require: false
+  gem "simplecov", require: false
 end
