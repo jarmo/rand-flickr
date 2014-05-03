@@ -1,5 +1,5 @@
 # rand(flickr)
 
-rand(flickr) is a microsite showing a random [Flickr](http://flickr.com) image from specified Flickr
+[rand(flickr)](http://rand-flickr.com) is a microsite serving random [Flickr](http://flickr.com) images from specified Flickr
 users' photosets.
 
