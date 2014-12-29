@@ -147,6 +147,7 @@ PLATFORMS
 DEPENDENCIES
   byebug
   coveralls
+  dotenv
   faraday
   foreman
   guard
