@@ -8,6 +8,7 @@ gem 'multi_json'
 gem "oj"
 gem "rake"
 gem "dotenv"
+gem "foreman"
 
 group :production do
   gem "puma"
