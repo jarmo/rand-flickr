@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+ruby File.read(File.expand_path('.ruby-version', __dir__)).strip
 
 gem "sinatra"
 gem "haml"
@@ -8,7 +9,6 @@ gem 'multi_json'
 gem "oj"
 gem "rake"
 gem "dotenv"
-gem "foreman"
 
 group :production do
   gem "puma"
