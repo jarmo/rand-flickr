@@ -1,6 +1,6 @@
 :javascript
   $(function() {
-    new PhotoRenderer($("#container"), #{MultiJson.dump @photo}).render()
+    new PhotoRenderer($("#container"), #{JSON.dump @photo}).render()
   })
 
 %a.next-photo(href="/photo/#{@username}")

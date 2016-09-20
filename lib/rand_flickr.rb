@@ -3,6 +3,7 @@ Dotenv.load
 require "sinatra"
 require "haml"
 require "sass"
+require "json"
 require File.expand_path("flickr_api", __dir__)
 
 class RandFlickr < Sinatra::Base
@@ -54,7 +55,7 @@ class RandFlickr < Sinatra::Base
     photo.merge!(browser_url: browser_url(username, photo))
 
     content_type :json
-    MultiJson.dump photo
+    JSON.dump photo
   end
 
   get "/photo/:user" do

@@ -1,7 +1,6 @@
 require "uri"
 require "faraday"
-require "multi_json"
-require "oj"
+require "json"
 
 class FlickrApi
   API_ENDPOINT_URL = URI.parse("https://api.flickr.com/services/rest/")
@@ -72,7 +71,7 @@ class FlickrApi
       )
     ).body
 
-    json = MultiJson.load response, symbolize_keys: true
+    json = JSON.parse(response, symbolize_names: true)
   end
 
   def response(json, *keys)

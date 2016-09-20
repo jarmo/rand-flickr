@@ -5,8 +5,6 @@ gem "sinatra"
 gem "haml"
 gem "sass"
 gem "faraday"
-gem 'multi_json'
-gem "oj"
 gem "rake"
 gem "dotenv"
 
