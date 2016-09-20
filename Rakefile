@@ -12,7 +12,7 @@ def app_name
 end
 
 desc "Deploy to server"
-task :deploy do
+task deploy: :spec do
   sh %Q[git ls-files | rsync --delete --delete-excluded --prune-empty-dirs --files-from - -avzhe ssh ./ box:www/#{app_name}]
   if app?
     sh %Q[ssh box "/bin/bash -c 'source /etc/profile && cd ~/www/#{app_name} && bundle install --quiet --without development && bundle exec rake restart'"]
@@ -38,4 +38,4 @@ if app?
   end
 end
 
-task :default => :deploy
+task :default => :spec
