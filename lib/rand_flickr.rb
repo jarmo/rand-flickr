@@ -23,6 +23,7 @@ class RandFlickr < Sinatra::Base
   configure :production do
     require "raven"
     use Raven::Rack
+    set :protection, :except => :frame_options
     
     Raven.configure do |config|
       config.dsn = ENV["SENTRY_DSN"]
