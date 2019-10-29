@@ -54,7 +54,8 @@ GEM
       multi_json (~> 1.7)
     guard-rspec (1.2.1)
       guard (>= 1.1)
-    haml (4.0.3)
+    haml (5.1.2)
+      temple (>= 0.8.0)
       tilt
     http-cookie (1.0.2)
       domain_name (~> 0.5)
@@ -76,11 +77,6 @@ GEM
       coderay (~> 1.0.5)
       method_source (~> 0.8)
       slop (~> 3.4)
-    pry (0.9.12.2-i386-mingw32)
-      coderay (~> 1.0.5)
-      method_source (~> 0.8)
-      slop (~> 3.4)
-      win32console (~> 1.3)
     pry (0.9.12.2-x86-mingw32)
       coderay (~> 1.0.5)
       method_source (~> 0.8)
@@ -91,7 +87,7 @@ GEM
     rack (1.6.11)
     rack-livereload (0.3.15)
       rack
-    rack-protection (1.5.4)
+    rack-protection (1.5.5)
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -139,6 +135,7 @@ GEM
       sinatra (~> 1.4.0)
       tilt (>= 1.3, < 3)
     slop (3.4.6)
+    temple (0.8.2)
     term-ansicolor (1.2.2)
       tins (~> 0.8)
     thin (1.7.0)
@@ -193,4 +190,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.15.4
+   1.17.3
