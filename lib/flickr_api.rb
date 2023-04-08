@@ -53,7 +53,7 @@ class FlickrApi
     photo.merge(
       ownername: ownername,
       photoset: photoset,
-      url: "http://farm#{photo[:farm]}.staticflickr.com/#{photo[:server]}/#{photo[:id]}_#{photo[:secret]}_b.jpg"
+      url: "//farm#{photo[:farm]}.staticflickr.com/#{photo[:server]}/#{photo[:id]}_#{photo[:secret]}_b.jpg"
     )
   end
 
