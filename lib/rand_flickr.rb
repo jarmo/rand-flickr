@@ -2,7 +2,7 @@ require "dotenv"
 Dotenv.load
 require "sinatra"
 require "haml"
-require "sass"
+require "sassc"
 require "json"
 require File.expand_path("flickr_api", __dir__)
 
@@ -37,14 +37,14 @@ class RandFlickr < Sinatra::Base
   end
 
   get "/" do
-    haml :index
+    haml :index, escape_html: false
   end
 
   get "/photo" do
     user = params[:user]
     if user.empty?
       @error = "User not specified"
-      return haml :index
+      return haml :index, escape_html: false
     end
 
     call env.merge("PATH_INFO" => "/photo/#{user}")
@@ -65,7 +65,7 @@ class RandFlickr < Sinatra::Base
       session[:photo] = photo = random_photo username
     rescue FlickrApi::Error::UserNotFoundError, FlickrApi::Error::NoPhotosetsError => e
       @error = e.message
-      return haml :index
+      return haml :index, escape_html: false
     end
 
     redirect to(browser_url(username, photo))
@@ -74,11 +74,13 @@ class RandFlickr < Sinatra::Base
   get "/photo/:user/:photoset_id/:photo_id" do
     @username = params[:user]
     @photo = session.delete(:photo) || FlickrApi.new(ENV["FLICKR_API_KEY"], @username).photo(params[:photoset_id], params[:photo_id])
-    haml :photo
+    haml :photo, escape_html: false
   end
 
+  STYLE = SassC::Engine.new(File.read(File.join(__dir__, "../views/style.scss")), style: :compressed).render
   get "/style.css" do
-    scss :style
+    content_type "text/css; charset=utf-8"
+    STYLE
   end
 
   private

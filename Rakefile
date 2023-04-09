@@ -1,10 +1,10 @@
-if File.exists? "spec"
+if File.exist? "spec"
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)
 end
 
 def app?
-  File.exists? "config.ru"
+  File.exist? "config.ru"
 end
 
 def app_name

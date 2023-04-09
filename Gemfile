@@ -3,7 +3,7 @@ ruby File.read(File.expand_path('.tool-versions', __dir__)).strip.split(" ").las
 
 gem "sinatra"
 gem "haml"
-gem "sass"
+gem "sassc"
 gem "faraday"
 gem "rake"
 gem "dotenv"
