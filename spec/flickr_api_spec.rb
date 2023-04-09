@@ -69,7 +69,7 @@ describe FlickrApi do
       expected_photo_with_url = random_photo.merge(
         ownername: "foooo baaar",
         photoset: random_photoset,
-        :url=>"http://farm1337.staticflickr.com/photo-server/photo-id1_photo-secret_b.jpg"
+        :url=>"//farm1337.staticflickr.com/photo-server/photo-id1_photo-secret_b.jpg"
       )
 
       api.random_photo.should == expected_photo_with_url
@@ -106,7 +106,7 @@ describe FlickrApi do
       expected_photo = photo.merge(
         ownername: "foooo baaar",
         photoset: photoset,
-        url: "http://farm42.staticflickr.com/photo-server2/photo-id_photo-secret2_b.jpg"
+        url: "//farm42.staticflickr.com/photo-server2/photo-id_photo-secret2_b.jpg"
       )
 
       FlickrApi.new("key", "user").photo("set-id3", "photo-id").should == expected_photo
