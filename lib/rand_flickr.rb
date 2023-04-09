@@ -77,10 +77,9 @@ class RandFlickr < Sinatra::Base
     haml :photo, escape_html: false
   end
 
-  STYLE = SassC::Engine.new(File.read(File.join(__dir__, "../views/style.scss")), style: :compressed).render
   get "/style.css" do
     content_type "text/css; charset=utf-8"
-    STYLE
+    SassC::Engine.new(File.read(File.join(__dir__, "../views/style.scss")), style: :compressed).render
   end
 
   private

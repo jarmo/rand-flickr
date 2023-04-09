@@ -14,8 +14,7 @@
 }
 
 html, body {
-  height: 99%;
-  width: 99%;
+  height: 100%;
   margin: 0;
   padding: 0;
   background: black;
@@ -52,8 +51,13 @@ html, button, input, select, textarea,
 }
 
 #container {
-  max-width: 1024px;
-  max-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .photo img {
+    max-width: 100%;
+  }
 
   .caption {
     position: absolute;

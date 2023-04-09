@@ -36,7 +36,7 @@ var PhotoRenderer = function(container, photo) {
 
       container.fadeOut(function() {
         $(this)
-          .css("background-image", "url(" + photo.url + ")")
+          .find(".photo img").attr("src", photo.url).end()
           .find(".caption").html(photo.photoset.title._content + "<br>" + photo.title + "<br>" + photo.ownername).end()
           .fadeIn()
       })
