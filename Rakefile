@@ -8,7 +8,7 @@ def app?
 end
 
 def app_name
-  File.basename(File.dirname(__FILE__))
+  "randflickr"
 end
 
 if app?
@@ -17,7 +17,7 @@ if app?
 
   desc "Start app"
   task :start => :environment do
-    sh %Q[sh -c 'RACK_ENV=production nohup bundle exec rackup -s puma -o 127.0.0.1 -P /var/run/#{app_name}.pid 1>>/var/log/#{app_name}.log 2>&1 &']
+    sh %Q[sh -c 'RACK_ENV=production nohup bundle exec rackup -s puma -o 127.0.0.1 -P /var/run/#{app_name}.pid 1>>/var/log/#{app_name}/#{app_name}.log 2>&1 &']
   end
 
   desc "Stop app"
