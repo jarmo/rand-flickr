@@ -16,13 +16,16 @@ if app?
   task :restart => [:stop, :start]
 
   desc "Start app"
-  task :start => :environment do
-    sh %Q[sh -c 'RACK_ENV=production nohup bundle exec rackup -s puma -o 127.0.0.1 -P /var/run/#{app_name}.pid 1>>/var/log/#{app_name}/#{app_name}.log 2>&1 &']
+  task :start => [:stop, :environment] do
+    `
+RACK_ENV=production bundle exec rackup -s puma -o 127.0.0.1 >>/var/log/#{app_name}/#{app_name}.log 2>&1 &
+echo $! > /var/run/#{app_name}.pid
+`
   end
 
   desc "Stop app"
   task :stop => :environment do
-    sh %Q[if [ -f /var/run/#{app_name}.pid ]; then kill -9 \$(cat /var/run/#{app_name}.pid) 2>/dev/null || echo "#{app_name} was not running..."; fi]
+    `if [ -f /var/run/#{app_name}.pid ]; then kill -9 $(cat /var/run/#{app_name}.pid) 2>/dev/null || echo "#{app_name} was not running..."; fi`
   end
 
   task :environment do
