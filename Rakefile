@@ -25,7 +25,7 @@ echo $! > /var/run/#{app_name}/#{app_name}.pid
 
   desc "Stop app"
   task :stop => :environment do
-    `if [ -f /var/run/#{app_name}/#{app_name}.pid ]; then kill -9 $(cat /var/run/#{app_name}.pid) 2>/dev/null && rm -f /var/run/#{app_name}/#{app_name}.pid || echo "#{app_name} was not running..."; fi`
+    `if [ -f /var/run/#{app_name}/#{app_name}.pid ]; then kill -9 $(cat /var/run/#{app_name}/#{app_name}.pid) 2>/dev/null && rm -f /var/run/#{app_name}/#{app_name}.pid || echo "#{app_name} was not running..."; fi`
   end
 
   task :environment do
